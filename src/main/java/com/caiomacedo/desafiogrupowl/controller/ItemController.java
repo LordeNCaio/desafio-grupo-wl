@@ -5,6 +5,8 @@ import com.caiomacedo.desafiogrupowl.service.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/items")
 public class ItemController {
@@ -26,8 +28,13 @@ public class ItemController {
         return itemService.findItemById(id);
     }
 
+    @GetMapping("/all")
+    public List<Item> findAll(){
+        return itemService.findAll();
+    }
+
     @PutMapping("/id/{id}")
-    public void updateItemById(@PathVariable Long id, @RequestBody Item item){
+    public void updateItemById(@PathVariable Long id, @ModelAttribute Item item){
         itemService.updateItemById(id, item);
     }
 

@@ -20,6 +20,9 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "SELECT * FROM COLLABORATORS c WHERE c.ID = ?", nativeQuery = true)
     Optional<Collaborator> findOneById(Long l);
 
+    @Query(value = "SELECT * FROM COLLABORATORS c WHERE c.CPF = ?", nativeQuery = true)
+    Optional<Collaborator> findOneByCpf(String s);
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE COLLABORATORS c SET c.NAME = ?2, c.CPF = ?3 WHERE c.ID = ?1", nativeQuery = true)

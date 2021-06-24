@@ -1,9 +1,12 @@
 package com.caiomacedo.desafiogrupowl.controller;
 
 import com.caiomacedo.desafiogrupowl.entity.Collaborator;
+import com.caiomacedo.desafiogrupowl.entity.Item;
 import com.caiomacedo.desafiogrupowl.service.CollaboratorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/collaborators")

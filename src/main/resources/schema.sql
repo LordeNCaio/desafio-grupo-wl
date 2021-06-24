@@ -14,3 +14,14 @@ create table items (
     name varchar(255) not null,
     primary key(id)
 );
+
+drop table if exists collaborator_items;
+
+create table collaborator_items (
+    id int not null identity,
+    collaborator_id int not null,
+    items_id int not null,
+    primary key(id),
+    foreign key (collaborator_id) references (collaborator_id),
+    foreign key (items_id) references (items_id)
+);

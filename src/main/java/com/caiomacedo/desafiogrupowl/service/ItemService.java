@@ -1,8 +1,12 @@
 package com.caiomacedo.desafiogrupowl.service;
 
 import com.caiomacedo.desafiogrupowl.entity.Item;
+import com.caiomacedo.desafiogrupowl.exception.item.ItemAlreadyExistsException;
+import com.caiomacedo.desafiogrupowl.exception.item.ItemNotFoundException;
 import com.caiomacedo.desafiogrupowl.repository.ItemRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ItemService {
@@ -14,18 +18,34 @@ public class ItemService {
     }
 
     public void createItem(Item item) {
+        if(findItemByName(item.getName()) != null){
+            throw new ItemAlreadyExistsException();
+        }
         itemRepository.createItem(item.getName());
     }
 
+    public List<Item> findAll() {
+        return itemRepository.findAllItems();
+    }
+
     public Item findItemById(Long id) {
-        return itemRepository.findOneById(id).orElse(null);
+        return itemRepository.findOneById(id).orElseThrow(ItemNotFoundException::new);
+    }
+
+    public Item findItemByName(String name){
+        return itemRepository.findOneByName(name).orElseThrow(ItemNotFoundException::new);
     }
 
     public void updateItemById(Long id, Item item) {
-        itemRepository.updateOneById(id, item.getName());
+        if(findItemById(id) != null){
+            itemRepository.updateOneById(id, item.getName());
+        }
     }
 
     public void deleteItemById(Long id) {
-        itemRepository.deleteOneById(id);
+        if(findItemById(id) != null) {
+            itemRepository.deleteOneById(id);
+        }
     }
+
 }
