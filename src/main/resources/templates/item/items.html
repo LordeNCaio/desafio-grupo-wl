@@ -6,8 +6,9 @@
     <link th:rel="stylesheet" th:href="style.css">
 </head>
 <body>
-    <header>
-        <nav th:class="menu">
+    <header th:class="menu">
+        <h1 th:class="menu__title">Lista de Itens</h1>
+        <nav th:class="container">
             <ul th:class="menu__shortcuts">
                 <li th:class="menu__shortcut">
                     <a th:class="menu__link" th:href="@{/}">Voltar</a>

@@ -2,6 +2,7 @@
     --primary-color: dodgerblue;
     --primary-text-color: whitesmoke;
     --secondary-text-color: #d0d0d0;
+    --dark-primary-color: #206fb6;
     --darker-text-color: #2a2a2a;
     --light-text-color: #404040;
     --error: #e01f1f;
@@ -27,12 +28,19 @@ html, body {
     padding: 0 2%;
 }
 
-.section__table{
-    height: 500px;
+.section__table {
     margin-top: 16px;
     margin-bottom: 16px;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+.section__actions {
+    padding: 8px 0;
+}
+
+.actions__menu {
+    background: var(--dark-primary-color);
 }
 
 .edit-btn {
@@ -49,7 +57,7 @@ html, body {
 .delete-btn {
     padding: 4px 8px;
     background: var(--error);
-    color: var(--light-text-color);
+    color: var(--secondary-text-color);
     font-size: 14px;
     border-radius: 5px;
     text-decoration: none;
@@ -60,7 +68,7 @@ html, body {
 .send-btn {
     padding: 4px 8px;
     background: var(--success);
-    color: var(--light-text-color);
+    color: var( --darker-text-color);
     font-size: 14px;
     border-radius: 5px;
     text-decoration: none;
@@ -73,6 +81,13 @@ html, body {
     padding: 8px 0;
     background: var(--primary-color);
 }
+
+.menu__title {
+    color: var(--primary-text-color);
+    font-size: 36px;
+    text-align: center;
+}
+
 
 .menu__shortcuts, .menu__shortcut {
     display: flex;
@@ -118,8 +133,8 @@ html, body {
     padding: 8px 16px;
     font-size: 20px;
     text-align: center;
-    border-left: 2px solid var(--primary-color);
-    border-right: 2px solid var(--primary-color);
+    border-left: 1px solid var(--primary-color);
+    border-right: 1px solid var(--primary-color);
 }
 
 .table__header {
@@ -132,4 +147,39 @@ html, body {
     color: var(--light-text-color);
     font-size: 16px;
     font-weight: bold;
+}
+
+/*Information Table*/
+
+.info-table{
+    width: 300px;
+    margin: 16px auto;
+    border: 1px solid var(--primary-color);
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.info-table__label{
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.info-table__input{
+    font-size: 16px;
+    line-height: 16px;
+    padding: 8px 0 8px 5px;
+    border: 3px solid var(--primary-color);
+    border-radius: 3px;
+}
+
+.info-table__input:focus{
+    outline: none;
+}
+
+.info-table__button{
+    margin: 6px;
+    padding: 10px 15px;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
 }

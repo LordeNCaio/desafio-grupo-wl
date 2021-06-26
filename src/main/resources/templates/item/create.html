@@ -16,17 +16,33 @@
         </nav>
     </header>
 
-    <section th:class="container">
-        <div th:object="${item}">
-            <div>
-                <label for="name">Nome</label>
-                <input id="name" type="text" th:field="*{name}" th:value="${item.name}">
-            </div>
-            <button id="save"
-                    th:with="url = @{/items}, redirect = @{/items}"
-                    th:attr="onclick=|createItem('${url}', '${redirect}')|">
-                Adicionar
-            </button>
+    <section th:class="section__table">
+        <div th:class="container">
+            <table th:class="info-table" th:object="${item}">
+                <thead th:class="table__head">
+                <tr th:class="table__row">
+                    <th th:class="table__header">Editar Item</th>
+                </tr>
+                </thead>
+                <tbody th:class="table__body">
+                <tr th:class="table__row">
+                    <td th:class="table__data">
+                        <label th:class="info-table__label" for="name">Nome</label>
+                        <br><br>
+                        <input th:class="info-table__input" id="name" type="text" th:field="*{name}" th:value="${item.name}">
+                    </td>
+                </tr>
+                <tr th:class="table__row">
+                    <td th:class="table__data">
+                        <button id="save" th:class="send-btn + ' ' + info-table__button"
+                                th:with="url = @{/items}, redirect = @{/items}"
+                                th:attr="onclick=|createItem('${url}', '${redirect}')|">
+                            Adicionar
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
