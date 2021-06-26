@@ -19,28 +19,31 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createItem(@RequestBody Item item){
+    public void createItem(@RequestBody Item item) {
         itemService.createItem(item);
     }
 
     @GetMapping("/id/{id}")
-    public Item findItemById(@PathVariable Long id){
+    @ResponseStatus(HttpStatus.FOUND)
+    public Item findItemById(@PathVariable Long id) {
         return itemService.findItemById(id);
     }
 
     @GetMapping("/all")
-    public List<Item> findAll(){
+    @ResponseStatus(HttpStatus.FOUND)
+    public List<Item> findAll() {
         return itemService.findAll();
     }
 
-    @PutMapping("/id/{id}")
-    public void updateItemById(@PathVariable Long id, @ModelAttribute Item item){
+    @PutMapping(value = "/id/{id}", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateItemById(@PathVariable Long id, @RequestBody Item item) {
         itemService.updateItemById(id, item);
     }
 
     @DeleteMapping("/id/{id}")
-    public void removeItem(@PathVariable Long id){
+    @ResponseStatus(HttpStatus.OK)
+    public void removeItem(@PathVariable Long id) {
         itemService.deleteItemById(id);
     }
-
 }

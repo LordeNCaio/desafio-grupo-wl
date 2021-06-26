@@ -6,6 +6,8 @@ import com.caiomacedo.desafiogrupowl.exception.collaborator.CollaboratorNotFound
 import com.caiomacedo.desafiogrupowl.repository.CollaboratorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CollaboratorService {
 
@@ -21,10 +23,16 @@ public class CollaboratorService {
         if(collaboratorRepository.findOneByCpf(collaborator.getCpf()).isPresent()){
             throw new CollaboratorAlreadyExistsException();
         }
-        collaboratorRepository.createCollaborator(collaborator.getName(), collaborator.getCpf());
+        collaboratorRepository.createCollaborator(collaborator.getFullName(), collaborator.getCpf());
+    }
 
-        var c = findCollaboratorByCpf(collaborator.getCpf());
-        collaboratorItemService.registerAllItems(c.getId(), collaborator.getItems());
+    public void addCollaboratorItem(Long id, List<Long> items){
+        findCollaboratorById(id);
+        collaboratorItemService.registerAllItems(id, items);
+    }
+
+    public List<Collaborator> findAll() {
+        return collaboratorRepository.findAllCollaborators();
     }
 
     public Collaborator findCollaboratorById(Long id) {
@@ -37,7 +45,7 @@ public class CollaboratorService {
 
     public void updateCollaboratorById(Long id, Collaborator collaborator) {
         if(findCollaboratorById(id) != null){
-            collaboratorRepository.updateOneById(id, collaborator.getName(), collaborator.getCpf());
+            collaboratorRepository.updateOneById(id, collaborator.getFullName(), collaborator.getCpf());
         }
     }
 

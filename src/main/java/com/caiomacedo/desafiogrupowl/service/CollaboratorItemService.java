@@ -1,6 +1,5 @@
 package com.caiomacedo.desafiogrupowl.service;
 
-import com.caiomacedo.desafiogrupowl.entity.Item;
 import com.caiomacedo.desafiogrupowl.exception.item.ItemAlreadyInUseException;
 import com.caiomacedo.desafiogrupowl.exception.item.ItemNotFoundException;
 import com.caiomacedo.desafiogrupowl.repository.ItemRepository;
@@ -17,13 +16,16 @@ public class CollaboratorItemService {
         this.itemRepository = itemRepository;
     }
 
-    public void registerAllItems(Long id, List<Item> items) {
-        items.forEach(x -> {
-            var item = itemRepository.findOneById(x.getId()).orElseThrow(ItemNotFoundException::new);
-//            if(itemRepository.findItemInUse(item.getId()).isPresent()){
-//                throw new ItemAlreadyInUseException();
-//            }
+    public void registerAllItems(Long id, List<Long> items) {
+        for (Long x : items) {
+            var item = itemRepository.findOneById(x).orElseThrow(ItemNotFoundException::new);
+            if(itemRepository.findItemInUse(item.getId(), id).isPresent()) {
+                throw new ItemAlreadyInUseException();
+            }
+            else if(itemRepository.findCollaboratorItem(item.getId(), id).isPresent()){
+                continue;
+            }
             itemRepository.registerCollaboratorItem(id, item.getId());
-        });
+        }
     }
 }

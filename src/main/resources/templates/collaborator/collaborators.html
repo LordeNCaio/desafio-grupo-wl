@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Items</title>
+    <link th:rel="stylesheet" th:href="style.css">
+</head>
+<body>
+    <header>
+        <nav th:class="menu">
+            <ul th:class="menu__shortcuts">
+                <li th:class="menu__shortcut">
+                    <a th:class="menu__link" th:href="@{/}">Voltar</a>
+                </li>
+                <li th:class="menu__shortcut">
+                    <a th:class="menu__link" th:href="@{/collaborators/create}">Adicionar Colaborador</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section th:class="container">
+        <table th:class="table">
+            <tr th:class="table__row">
+                <th th:class="table__header">Id</th>
+                <th th:class="table__header">Nome</th>
+                <th th:class="table__header">CPF</th>
+                <th th:class="table__header">Ações</th>
+            </tr>
+            <tr th:class="table__row" th:each="collaborator : ${collaboratorsList}">
+                <td th:class="table__data" th:text="${collaborator.id}"></td>
+                <td th:class="table__data" th:text="${collaborator.fullName}"></td>
+                <td th:class="table__data" th:text="${collaborator.cpf}"></td>
+                <td th:class="table__data">
+                    <a th:href="@{'/collaborators/edit/id/'+${collaborator.id}}">Editar</a>
+                </td>
+            </tr>
+        </table>
+    </section>
+</body>
+</html>

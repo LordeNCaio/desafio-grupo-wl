@@ -1,21 +1,15 @@
-package com.caiomacedo.desafiogrupowl.entity;
+package com.caiomacedo.desafiogrupowl.entity.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import java.util.List;
-
-@Entity
-public class Collaborator extends BaseEntity {
+public class CollaboratorItemsDTO {
 
     private String fullName;
     private String cpf;
+    private String name;
 
-    public Collaborator() {
-    }
-
-    public Collaborator(String fullName, String cpf) {
+    public CollaboratorItemsDTO(String fullName, String cpf, String name) {
         this.fullName = fullName;
         this.cpf = cpf;
+        this.name = name;
     }
 
     public String getFullName() {
@@ -32,5 +26,13 @@ public class Collaborator extends BaseEntity {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

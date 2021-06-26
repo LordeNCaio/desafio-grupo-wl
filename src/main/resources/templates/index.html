@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Café da Manha</title>
+    <link th:rel="stylesheet" th:href="style.css">
+</head>
+<body>
+    <header>
+        <nav th:class="menu">
+            <ul th:class="menu__shortcuts">
+                <li th:class="menu__shortcut">
+                    <a th:class="menu__link" th:href="@{/collaborators}">Colaboradores</a>
+                </li>
+                <li th:class="menu__shortcut">
+                    <a th:class="menu__link" th:href="@{/items}">Itens</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+</body>
+</html>

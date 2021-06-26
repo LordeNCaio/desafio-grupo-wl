@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,8 +15,11 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO COLLABORATORS (NAME, CPF) VALUES (?1, ?2)", nativeQuery = true)
+    @Query(value = "INSERT INTO COLLABORATORS (FULL_NAME, CPF) VALUES (?1, ?2)", nativeQuery = true)
     void createCollaborator(String s1, String s2);
+
+    @Query(value = "SELECT * FROM COLLABORATORS", nativeQuery = true)
+    List<Collaborator> findAllCollaborators();
 
     @Query(value = "SELECT * FROM COLLABORATORS c WHERE c.ID = ?", nativeQuery = true)
     Optional<Collaborator> findOneById(Long l);
@@ -25,7 +29,7 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE COLLABORATORS c SET c.NAME = ?2, c.CPF = ?3 WHERE c.ID = ?1", nativeQuery = true)
+    @Query(value = "UPDATE COLLABORATORS c SET c.FULL_NAME = ?2, c.CPF = ?3 WHERE c.ID = ?1", nativeQuery = true)
     void updateOneById(Long l, String s1, String s2);
 
     @Modifying

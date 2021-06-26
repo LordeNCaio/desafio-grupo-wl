@@ -18,7 +18,7 @@ public class ItemService {
     }
 
     public void createItem(Item item) {
-        if(findItemByName(item.getName()) != null){
+        if(itemRepository.findOneByName(item.getName()).isPresent()){
             throw new ItemAlreadyExistsException();
         }
         itemRepository.createItem(item.getName());
@@ -30,10 +30,6 @@ public class ItemService {
 
     public Item findItemById(Long id) {
         return itemRepository.findOneById(id).orElseThrow(ItemNotFoundException::new);
-    }
-
-    public Item findItemByName(String name){
-        return itemRepository.findOneByName(name).orElseThrow(ItemNotFoundException::new);
     }
 
     public void updateItemById(Long id, Item item) {

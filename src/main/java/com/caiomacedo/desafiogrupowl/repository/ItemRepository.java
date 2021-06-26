@@ -1,6 +1,8 @@
 package com.caiomacedo.desafiogrupowl.repository;
 
 import com.caiomacedo.desafiogrupowl.entity.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -39,6 +41,16 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO collaborator_items (COLLABORATOR_ID, ITEMS_ID) VALUES (?1, ?2)", nativeQuery = true)
+    @Query(value = "INSERT INTO collaborator_items (COLLABORATOR_ID, ITEM_ID) VALUES (?1, ?2)", nativeQuery = true)
     void registerCollaboratorItem(Long l1, Long l2);
+
+    @Query(
+            value = "SELECT * FROM ITEMS i WHERE i.ID IN (SELECT ci.ITEM_ID FROM COLLABORATOR_ITEMS ci WHERE ci.ITEM_ID = ?1 AND ci.COLLABORATOR_ID != ?2)",
+            nativeQuery = true)
+    Optional<Item> findItemInUse(Long l1, Long l2);
+
+    @Query(
+            value = "SELECT * FROM ITEMS i WHERE i.ID IN (SELECT ci.ITEM_ID FROM COLLABORATOR_ITEMS ci WHERE ci.ITEM_ID = ?1 AND ci.COLLABORATOR_ID = ?2)",
+            nativeQuery = true)
+    Optional<Item> findCollaboratorItem(Long id, Long id1);
 }
