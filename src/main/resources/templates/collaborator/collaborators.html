@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Lista de Items</title>
-    <link th:rel="stylesheet" th:href="style.css">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <header th:class="menu">
@@ -14,7 +14,7 @@
                     <a th:class="menu__link" th:href="@{/}">Voltar</a>
                 </li>
                 <li th:class="menu__shortcut">
-                    <a th:class="menu__link" th:href="@{/}">Adicionar Colaborador</a>
+                    <a th:class="menu__link" th:href="@{/collaborators/create}">Adicionar Colaborador</a>
                 </li>
             </ul>
         </nav>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Criar Item</title>
-    <link th:rel="stylesheet" th:href="@{../style.css}">
+    <link th:rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
     <header>
@@ -21,14 +21,13 @@
             <table th:class="info-table" th:object="${item}">
                 <thead th:class="table__head">
                 <tr th:class="table__row">
-                    <th th:class="table__header">Editar Item</th>
+                    <th th:class="table__header">Criar Item</th>
                 </tr>
                 </thead>
                 <tbody th:class="table__body">
                 <tr th:class="table__row">
                     <td th:class="table__data">
                         <label th:class="info-table__label" for="name">Nome</label>
-                        <br><br>
                         <input th:class="info-table__input" id="name" type="text" th:field="*{name}" th:value="${item.name}">
                     </td>
                 </tr>

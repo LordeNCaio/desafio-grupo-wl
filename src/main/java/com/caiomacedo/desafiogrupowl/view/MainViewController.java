@@ -1,5 +1,6 @@
 package com.caiomacedo.desafiogrupowl.view;
 
+import com.caiomacedo.desafiogrupowl.entity.Collaborator;
 import com.caiomacedo.desafiogrupowl.entity.Item;
 import com.caiomacedo.desafiogrupowl.service.CollaboratorService;
 import com.caiomacedo.desafiogrupowl.service.ItemService;
@@ -58,6 +59,22 @@ public class MainViewController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("collaborator/collaborators");
         modelAndView.addObject("collaboratorsList", collaboratorService.findAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/collaborators/create")
+    public ModelAndView collaboratorCreate(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("collaborator/create");
+        modelAndView.addObject("collaborator", new Collaborator());
+        return modelAndView;
+    }
+
+    @GetMapping("/collaborators/edit/id/{id}")
+    public ModelAndView collaboratorCreate(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("collaborator/edit");
+        modelAndView.addObject("collaborator", collaboratorService.findCollaboratorById(id));
         return modelAndView;
     }
 }

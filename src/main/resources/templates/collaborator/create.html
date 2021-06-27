@@ -2,7 +2,7 @@
 <html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Item</title>
+    <title>Criar Colaborador</title>
     <link th:rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -10,7 +10,7 @@
         <nav th:class="menu">
             <ul th:class="menu__shortcuts">
                 <li th:class="menu__shortcut">
-                    <a th:class="menu__link" th:href="@{/items}">Voltar</a>
+                    <a th:class="menu__link" th:href="@{/collaborators}">Voltar</a>
                 </li>
             </ul>
         </nav>
@@ -18,30 +18,31 @@
 
     <section th:class="section__table">
         <div th:class="container">
-            <table th:class="info-table" th:object="${item}">
+            <table th:class="info-table" th:object="${collaborator}">
                 <thead th:class="table__head">
                 <tr th:class="table__row">
-                    <th th:class="table__header">Editar Item</th>
+                    <th th:class="table__header">Criar Colaborador</th>
                 </tr>
                 </thead>
                 <tbody th:class="table__body">
                 <tr th:class="table__row">
                     <td th:class="table__data">
-                        <label th:class="info-table__label" for="name">Nome</label>
-                        <input th:class="info-table__input" id="name" type="text" th:field="*{name}" th:value="${item.name}">
+                        <label th:class="info-table__label" for="fullName">Nome Completo</label>
+                        <input th:class="info-table__input" id="fullName" type="text" th:field="*{fullName}" th:value="${collaborator.fullName}">
+                    </td>
+                </tr>
+                <tr th:class="table__row">
+                    <td th:class="table__data">
+                        <label th:class="info-table__label" for="cpf">CPF</label>
+                        <input th:class="info-table__input" id="cpf" type="text" th:field="*{cpf}" th:value="${collaborator.cpf}">
                     </td>
                 </tr>
                 <tr th:class="table__row">
                     <td th:class="table__data">
                         <button id="save" th:class="send-btn + ' ' + info-table__button"
-                                th:with="url = @{'/items/id/' + ${item.id}}, redirect = @{/items}"
-                                th:attr="onclick=|editItem('${url}', '${redirect}')|">
-                            Salvar
-                        </button>
-                        <button id="delete" th:class="delete-btn + ' ' + info-table__button"
-                                th:with="url = @{'/items/id/' + ${item.id}}, redirect = @{/items}"
-                                th:attr="onclick=|deleteItem('${url}', '${redirect}')|">
-                            Deletar
+                                th:with="url = @{/collaborators}, redirect = @{/collaborators}"
+                                th:attr="onclick=|createItem('${url}', '${redirect}')|">
+                            Adicionar
                         </button>
                     </td>
                 </tr>
@@ -50,18 +51,17 @@
         </div>
     </section>
 
-    <script th:src="@{/js/jquery-3.6.0.min.js}"></script>
-
     <script th:inline="javascript">
         function getData(){
             return JSON.stringify({
-                "name": document.getElementById('name').value
+                "fullName": document.getElementById('fullName').value,
+                "cpf": document.getElementById('cpf').value
             })
         }
 
-        function editItem(url, redirect) {
+        function createItem(url, redirect) {
             let xhttp = new XMLHttpRequest();
-            xhttp.open("PUT", url);
+            xhttp.open("POST", url);
             xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             xhttp.addEventListener('load', () => {
                 setTimeout(() => {
@@ -69,18 +69,6 @@
                 }, 500)
             })
             xhttp.send(getData())
-        }
-
-        function deleteItem(url, redirect) {
-            let xhttp = new XMLHttpRequest();
-            xhttp.open("DELETE", url);
-            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhttp.addEventListener('load', () => {
-                setTimeout(() => {
-                    window.location = redirect;
-                }, 500)
-            })
-            xhttp.send()
         }
     </script>
 </body>
