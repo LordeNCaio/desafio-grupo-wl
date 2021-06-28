@@ -18,7 +18,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query(value = "INSERT INTO ITEMS (NAME) VALUES (?)", nativeQuery = true)
     void createOne(String name);
 
-    @Query(value = "SELECT * FROM ITEMS", nativeQuery = true)
+    @Query(value = "SELECT * FROM ITEMS ORDER BY ID", nativeQuery = true)
     List<Item> findAllItems();
 
     @Query(value = "SELECT * FROM ITEMS i WHERE i.ID = ?", nativeQuery = true)
@@ -41,11 +41,11 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "WHERE ci.ITEM_ID = ?2 AND ci.COLLABORATOR_ID != ?1)", nativeQuery = true)
     Optional<Item> findOneUsed(Long collaboratorId, Long itemId);
 
-    @Query(value = "SELECT * FROM ITEMS i WHERE i.ID NOT IN (SELECT ITEM_ID FROM COLLABORATOR_ITEMS)", nativeQuery = true)
+    @Query(value = "SELECT * FROM ITEMS i WHERE i.ID NOT IN (SELECT ITEM_ID FROM COLLABORATOR_ITEMS) ORDER BY i.ID", nativeQuery = true)
     List<Item> findUnusedItems();
 
     @Query(value = "SELECT * FROM ITEMS i WHERE i.ID IN (SELECT ci.ITEM_ID FROM COLLABORATOR_ITEMS ci " +
-            "WHERE ci.COLLABORATOR_ID = ?)", nativeQuery = true)
+            "WHERE ci.COLLABORATOR_ID = ?) ORDER BY i.ID", nativeQuery = true)
     List<Item> findCollaboratorItems(Long collaboratorId);
 
     @Modifying

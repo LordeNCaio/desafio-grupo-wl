@@ -12,11 +12,9 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
-    private final CollaboratorItemService collaboratorItemService;
 
-    public ItemService(ItemRepository itemRepository, CollaboratorItemService collaboratorItemService) {
+    public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
-        this.collaboratorItemService = collaboratorItemService;
     }
 
     public void createItem(Item item) {
@@ -32,6 +30,10 @@ public class ItemService {
 
     public Item findOneById(Long id) {
         return itemRepository.findOneById(id).orElseThrow(ItemNotFoundException::new);
+    }
+
+    public Item findOneByName(String name) {
+        return itemRepository.findOneByName(name).orElseThrow(ItemNotFoundException::new);
     }
 
     public void updateItemById(Long id, Item item) {

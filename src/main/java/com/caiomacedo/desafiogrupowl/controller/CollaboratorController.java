@@ -35,6 +35,12 @@ public class CollaboratorController {
         return collaboratorService.findOneById(id);
     }
 
+    @GetMapping("/cpf/{cpf}")
+    @ResponseStatus(HttpStatus.FOUND)
+    public Collaborator findOneByCpf(@PathVariable String cpf) {
+        return collaboratorService.findOneByCpf(cpf);
+    }
+
     @PutMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void updateOneById(@PathVariable Long id, @RequestBody Collaborator collaborator) {

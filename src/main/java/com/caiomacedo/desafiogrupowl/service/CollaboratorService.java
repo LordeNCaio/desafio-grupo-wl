@@ -35,6 +35,10 @@ public class CollaboratorService {
         return collaboratorRepository.findOneById(id).orElseThrow(CollaboratorNotFoundException::new);
     }
 
+    public Collaborator findOneByCpf(String cpf) {
+        return collaboratorRepository.findOneByCpf(cpf).orElseThrow(CollaboratorNotFoundException::new);
+    }
+
     public void updateOneById(Long id, Collaborator collaborator) {
         if (findOneById(id) != null) {
             collaboratorRepository.updateOneById(id, collaborator.getFullName(), collaborator.getCpf());

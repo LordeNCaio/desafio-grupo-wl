@@ -27,6 +27,9 @@
             <tbody th:class="table__body">
             <tr th:class="table__row">
                 <td th:class="table__data">
+                    <label for="lastName" hidden>
+                        <input id="lastName" th:value="${item.name}">
+                    </label>
                     <label th:class="info-table__label" for="name">Nome</label>
                     <input th:class="info-table__input" id="name" type="text" th:field="*{name}"
                            th:value="${item.name}">
@@ -36,14 +39,15 @@
                 <td th:class="table__data">
                     <button id="save" th:class="send-btn + ' ' + info-table__button"
                             th:with="url = @{'/items/id/' + ${item.id}}, redirect = @{/items}"
-                            th:attr="onclick=|editItem('${url}', '${redirect}')|">
+                            th:attr="onclick=|validateItemAndUpdate('${url}', '${redirect}')|">
                         Salvar
                     </button>
                     <button id="delete" th:class="delete-btn + ' ' + info-table__button"
                             th:with="url = @{'/items/id/' + ${item.id}}, redirect = @{/items}"
-                            th:attr="onclick=|deleteItem('${url}', '${redirect}')|">
+                            th:attr="onclick=|validateItem('${url}', '${redirect}')|">
                         Deletar
                     </button>
+                    <p th:class="error" th:id="errorBox"></p>
                 </td>
             </tr>
             </tbody>
@@ -52,22 +56,32 @@
 </section>
 
 <script th:inline="javascript">
-    function getData() {
-        return JSON.stringify({
-            "name": document.getElementById('name').value
-        })
-    }
 
-    function editItem(url, redirect) {
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("PUT", url);
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.addEventListener('load', () => {
-            setTimeout(() => {
-                window.location = redirect;
-            }, 500)
-        })
-        xhttp.send(getData())
+    function validateItemAndUpdate(url, redirect) {
+        let name = document.getElementById('name').value;
+        let lastName = document.getElementById('lastName').value;
+        let errorBox = document.getElementById('errorBox');
+
+        if (name.length > 0) {
+            if (name !== lastName) {
+                let xhttp = new XMLHttpRequest();
+                xhttp.open("PUT", url);
+                xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                xhttp.addEventListener('load', () => {
+                    setTimeout(() => {
+                        window.location = redirect;
+                    }, 300)
+                })
+                xhttp.send(JSON.stringify({
+                    "name": document.getElementById('name').value
+                }))
+
+            } else {
+                errorBox.innerHTML = 'Item name cannot be equal original name';
+            }
+        } else {
+            errorBox.innerHTML = 'Item name cannot be null or empty';
+        }
     }
 
     function deleteItem(url, redirect) {
@@ -77,7 +91,7 @@
         xhttp.addEventListener('load', () => {
             setTimeout(() => {
                 window.location = redirect;
-            }, 500)
+            }, 300)
         })
         xhttp.send()
     }

@@ -18,7 +18,7 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "INSERT INTO COLLABORATORS (FULL_NAME, CPF) VALUES (?1, ?2)", nativeQuery = true)
     void createOne(String fullName, String cpf);
 
-    @Query(value = "SELECT * FROM COLLABORATORS", nativeQuery = true)
+    @Query(value = "SELECT * FROM COLLABORATORS ORDER BY ID", nativeQuery = true)
     List<Collaborator> findAllCollaborators();
 
     @Query(value = "SELECT * FROM COLLABORATORS c WHERE c.ID = ?", nativeQuery = true)

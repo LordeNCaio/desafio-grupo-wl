@@ -27,6 +27,9 @@
             <tbody th:class="table__body">
             <tr th:class="table__row">
                 <td th:class="table__data">
+                    <label for="lastFullName" hidden>
+                        <input id="lastFullName" th:value="${collaborator.fullName}">
+                    </label>
                     <label th:class="info-table__label" for="fullName">Nome Completo</label>
                     <input th:class="info-table__input" id="fullName" type="text" th:field="*{fullName}"
                            th:value="${collaborator.fullName}">
@@ -34,6 +37,9 @@
             </tr>
             <tr th:class="table__row">
                 <td th:class="table__data">
+                    <label for="lastCpf" hidden>
+                        <input id="lastCpf" th:value="${collaborator.cpf}">
+                    </label>
                     <label th:class="info-table__label" for="cpf">CPF</label>
                     <input th:class="info-table__input" id="cpf" type="text" th:field="*{cpf}"
                            th:value="${collaborator.cpf}">
@@ -43,7 +49,7 @@
                 <td th:class="table__data">
                     <button id="save" th:class="send-btn + ' ' + info-table__button"
                             th:with="url = @{'/collaborators/id/' + ${collaborator.id}}, redirect = @{/collaborators}"
-                            th:attr="onclick=|editItem('${url}', '${redirect}')|">
+                            th:attr="onclick=|validateCollaboratorAndUpdate('${url}', '${redirect}')|">
                         Salvar
                     </button>
                     <button id="delete" th:class="delete-btn + ' ' + info-table__button"
@@ -51,6 +57,7 @@
                             th:attr="onclick=|deleteItem('${url}', '${redirect}')|">
                         Deletar
                     </button>
+                    <p th:class="error" th:id="errorBox"></p>
                 </td>
             </tr>
             </tbody>
@@ -59,14 +66,34 @@
 </section>
 
 <script th:inline="javascript">
-    function getData() {
-        return JSON.stringify({
-            "fullName": document.getElementById('fullName').value,
-            "cpf": document.getElementById('cpf').value
-        })
-    }
 
-    function editItem(url, redirect) {
+    function validateCollaboratorAndUpdate(url, redirect) {
+        let fullName = document.getElementById('fullName').value;
+        let cpf = document.getElementById('cpf').value;
+
+        let lastFullName = document.getElementById('lastFullName').value;
+        let lastCpf = document.getElementById('lastCpf').value;
+
+        let errorBox = document.getElementById('errorBox');
+
+        if (fullName.length === 0) {
+            errorBox.innerHTML = 'Field Nome Completo cannot be empty';
+            return;
+        }
+
+        if (cpf.length === 0) {
+            errorBox.innerHTML = 'Field CPF cannot be empty';
+            return;
+        } else if (cpf.length !== 11) {
+            errorBox.innerHTML = 'Field CPF must have at least eleven digits';
+            return;
+        }
+
+        if (fullName === lastFullName && cpf === lastCpf) {
+            errorBox.innerHTML = 'Field Nome Completo or CPF cannot be equal last Nome Completo or CPF';
+            return;
+        }
+
         let xhttp = new XMLHttpRequest();
         xhttp.open("PUT", url);
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -75,7 +102,10 @@
                 window.location = redirect;
             }, 500)
         })
-        xhttp.send(getData())
+        xhttp.send(JSON.stringify({
+            "fullName": fullName,
+            "cpf": cpf
+        }))
     }
 
     function deleteItem(url, redirect) {

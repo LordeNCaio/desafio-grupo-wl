@@ -43,9 +43,10 @@
                 <td th:class="table__data">
                     <button id="save" th:class="send-btn + ' ' + info-table__button"
                             th:with="url = @{/collaborators}, redirect = @{/collaborators}"
-                            th:attr="onclick=|createItem('${url}', '${redirect}')|">
+                            th:attr="onclick=|validateCollaboratorAndCreate('${url}', '${redirect}')|">
                         Adicionar
                     </button>
+                    <p th:class="error" th:id="errorBox"></p>
                 </td>
             </tr>
             </tbody>
@@ -54,14 +55,44 @@
 </section>
 
 <script th:inline="javascript">
-    function getData() {
-        return JSON.stringify({
-            "fullName": document.getElementById('fullName').value,
-            "cpf": document.getElementById('cpf').value
-        })
+
+    function validateCollaboratorAndCreate(url, redirect) {
+        let fullName = document.getElementById('fullName').value;
+        let cpf = document.getElementById('cpf').value;
+        let errorBox = document.getElementById('errorBox');
+
+        if (fullName.length === 0) {
+            errorBox.innerHTML = 'Field Nome Completo cannot be empty';
+            return;
+        }
+
+        if (cpf.length === 0) {
+            errorBox.innerHTML = 'Field CPF cannot be empty';
+            return;
+        }
+        else if (cpf.length !== 11) {
+            errorBox.innerHTML = 'Field CPF must have at least eleven digits';
+            return;
+        }
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState === 4) {
+                if (xhttp.status === 404) {
+                    createCollaborator(url, redirect, JSON.stringify({
+                        "fullName": fullName,
+                        "cpf": cpf
+                    }))
+                } else if (xhttp.status === 302) {
+                    errorBox.innerHTML = 'Item ' + name.toString() + ' already exists';
+                }
+            }
+        }
+        xhttp.open('GET', '/collaborators/cpf/' + cpf, true)
+        xhttp.send();
     }
 
-    function createItem(url, redirect) {
+    function createCollaborator(url, redirect, data) {
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", url);
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -70,7 +101,7 @@
                 window.location = redirect;
             }, 500)
         })
-        xhttp.send(getData())
+        xhttp.send(data)
     }
 </script>
 </body>

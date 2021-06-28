@@ -36,9 +36,10 @@
                 <td th:class="table__data">
                     <button id="save" th:class="send-btn + ' ' + info-table__button"
                             th:with="url = @{/items}, redirect = @{/items}"
-                            th:attr="onclick=|createItem('${url}', '${redirect}')|">
+                            th:attr="onclick=|validateItem('${url}', '${redirect}')|">
                         Adicionar
                     </button>
+                    <p th:class="error" th:id="errorBox"></p>
                 </td>
             </tr>
             </tbody>
@@ -47,23 +48,43 @@
 </section>
 
 <script th:inline="javascript">
-    function getData() {
-        return JSON.stringify({
-            "name": document.getElementById('name').value
-        })
+
+    function validateItem(url, redirect) {
+        let name = document.getElementById('name').value;
+        let errorBox = document.getElementById('errorBox');
+
+        if (name.length > 0) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = () => {
+                if (xhttp.readyState === 4) {
+                    if (xhttp.status === 404) {
+                        createItem(url, redirect, JSON.stringify({
+                            "name": name
+                        }))
+                    } else if(xhttp.status === 302) {
+                        errorBox.innerHTML = 'Item ' + name.toString() + ' already exists';
+                    }
+                }
+            }
+            xhttp.open('GET', '/items/name/' + name, true)
+            xhttp.send();
+        } else {
+            errorBox.innerHTML = 'Item name cannot be null or empty';
+        }
     }
 
-    function createItem(url, redirect) {
+    function createItem(url, redirect, data) {
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", url);
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhttp.addEventListener('load', () => {
             setTimeout(() => {
                 window.location = redirect;
-            }, 500)
+            }, 300)
         })
-        xhttp.send(getData())
+        xhttp.send(data)
     }
+
 </script>
 </body>
 </html>

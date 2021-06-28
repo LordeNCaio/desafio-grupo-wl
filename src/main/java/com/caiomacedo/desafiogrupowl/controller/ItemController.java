@@ -21,10 +21,16 @@ public class ItemController {
         itemService.createItem(item);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping(value = "/id/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.FOUND)
     public Item findOneById(@PathVariable Long id) {
         return itemService.findOneById(id);
+    }
+
+    @GetMapping(value = "/name/{name}", produces = "application/json")
+    @ResponseStatus(HttpStatus.FOUND)
+    public Item findOneById(@PathVariable String name) {
+        return itemService.findOneByName(name);
     }
 
     @PutMapping(value = "/id/{id}", consumes = "application/json")
