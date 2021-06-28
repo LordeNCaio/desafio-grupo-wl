@@ -12,9 +12,11 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final CollaboratorItemService collaboratorItemService;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, CollaboratorItemService collaboratorItemService) {
         this.itemRepository = itemRepository;
+        this.collaboratorItemService = collaboratorItemService;
     }
 
     public void createItem(Item item) {
@@ -41,6 +43,7 @@ public class ItemService {
     public void deleteOneById(Long id) {
         if (findOneById(id) != null) {
             itemRepository.deleteOneById(id);
+            collaboratorItemService.removeRelationship();
         }
     }
 

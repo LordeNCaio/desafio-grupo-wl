@@ -42,22 +42,29 @@ public class CollaboratorService {
     }
 
     public void deleteOneById(Long id) {
-        findOneById(id);
-        collaboratorRepository.deleteOneById(id);
+        if (findOneById(id) != null) {
+            collaboratorRepository.deleteOneById(id);
+            collaboratorItemService.removeRelationship();
+        }
     }
 
     public void addCollaboratorItem(Long id, List<Long> items) {
-        findOneById(id);
-        collaboratorItemService.addAllItems(id, items);
+        if (findOneById(id) != null) {
+            collaboratorItemService.addAllItems(id, items);
+        }
     }
 
     public void removeCollaboratorItem(Long id, List<Long> items) {
-        findOneById(id);
+        if (findOneById(id) != null) {
+            collaboratorItemService.removeAllItems(id, items);
+        }
         collaboratorItemService.removeAllItems(id, items);
     }
 
     public List<Item> findCollaboratorItems(Long id) {
-        findOneById(id);
-        return collaboratorItemService.findCollaboratorItems(id);
+        if (findOneById(id) != null) {
+            return collaboratorItemService.findCollaboratorItems(id);
+        }
+        return null;
     }
 }
