@@ -37,9 +37,9 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Query(value = "DELETE FROM COLLABORATORS WHERE ID = ?", nativeQuery = true)
     void deleteOneById(Long id);
 
-    @Query(value = "SELECT c.FULL_NAME, c.CPF, GROUP_CONCAT(i.NAME SEPARATOR '|') FROM COLLABORATORS c " +
+    @Query(value = "SELECT c.FULL_NAME, c.CPF, STRING_AGG(i.NAME, '|') FROM COLLABORATORS c " +
             "INNER JOIN COLLABORATOR_ITEMS ci ON c.ID  = ci.COLLABORATOR_ID " +
-            "INNER JOIN ITEMS i ON  i.ID = ci.ITEM_ID GROUP BY c.FULL_NAME ORDER BY c.ID", nativeQuery = true)
+            "INNER JOIN ITEMS i ON  i.ID = ci.ITEM_ID GROUP BY c.ID, c.FULL_NAME, c.CPF ORDER BY c.ID", nativeQuery = true)
     List<String> findCollaboratorAndItems();
 
     @Modifying
