@@ -1,4 +1,4 @@
-package com.caiomacedo.desafiogrupowl.view;
+package com.caiomacedo.desafiogrupowl.controller;
 
 import com.caiomacedo.desafiogrupowl.entity.Collaborator;
 import com.caiomacedo.desafiogrupowl.entity.Item;
@@ -12,12 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/")
-public class MainViewController {
+public class ViewController {
 
     private final CollaboratorService collaboratorService;
     private final ItemService itemService;
 
-    public MainViewController(CollaboratorService collaboratorService, ItemService itemService) {
+    public ViewController(CollaboratorService collaboratorService, ItemService itemService) {
         this.collaboratorService = collaboratorService;
         this.itemService = itemService;
     }
@@ -26,6 +26,7 @@ public class MainViewController {
     public ModelAndView mainPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("index");
+        modelAndView.addObject("participants", collaboratorService.findCollaboratorAndItems());
         return modelAndView;
     }
 
@@ -50,7 +51,7 @@ public class MainViewController {
     public ModelAndView itemCreate(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("item/edit");
-        modelAndView.addObject("item", itemService.findItemById(id));
+        modelAndView.addObject("item", itemService.findOneById(id));
         return modelAndView;
     }
 
@@ -59,6 +60,15 @@ public class MainViewController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("collaborator/collaborators");
         modelAndView.addObject("collaboratorsList", collaboratorService.findAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/collaborators/id/{id}/add-item")
+    public ModelAndView collaboratorAddItem(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("collaborator/add-item");
+        modelAndView.addObject("itemsList", itemService.findUnusedItems());
+        modelAndView.addObject("collaborator", collaboratorService.findOneById(id));
         return modelAndView;
     }
 
@@ -74,7 +84,7 @@ public class MainViewController {
     public ModelAndView collaboratorCreate(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("collaborator/edit");
-        modelAndView.addObject("collaborator", collaboratorService.findCollaboratorById(id));
+        modelAndView.addObject("collaborator", collaboratorService.findOneById(id));
         return modelAndView;
     }
 }

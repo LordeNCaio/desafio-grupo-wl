@@ -1,11 +1,13 @@
 package com.caiomacedo.desafiogrupowl.service;
 
 import com.caiomacedo.desafiogrupowl.entity.Collaborator;
+import com.caiomacedo.desafiogrupowl.entity.dto.CollaboratorItems;
 import com.caiomacedo.desafiogrupowl.exception.collaborator.CollaboratorAlreadyExistsException;
 import com.caiomacedo.desafiogrupowl.exception.collaborator.CollaboratorNotFoundException;
 import com.caiomacedo.desafiogrupowl.repository.CollaboratorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,39 +21,45 @@ public class CollaboratorService {
         this.collaboratorItemService = collaboratorItemService;
     }
 
-    public void createCollaborator(Collaborator collaborator) {
+    public void creatOne(Collaborator collaborator) {
         if(collaboratorRepository.findOneByCpf(collaborator.getCpf()).isPresent()){
             throw new CollaboratorAlreadyExistsException();
         }
-        collaboratorRepository.createCollaborator(collaborator.getFullName(), collaborator.getCpf());
-    }
-
-    public void addCollaboratorItem(Long id, List<Long> items){
-        findCollaboratorById(id);
-        collaboratorItemService.registerAllItems(id, items);
+        collaboratorRepository.createOne(collaborator.getFullName(), collaborator.getCpf());
     }
 
     public List<Collaborator> findAll() {
         return collaboratorRepository.findAllCollaborators();
     }
 
-    public Collaborator findCollaboratorById(Long id) {
+    public Collaborator findOneById(Long id) {
         return collaboratorRepository.findOneById(id).orElseThrow(CollaboratorNotFoundException::new);
     }
 
-    public Collaborator findCollaboratorByCpf(String cpf) {
-        return collaboratorRepository.findOneByCpf(cpf).orElseThrow(CollaboratorNotFoundException::new);
-    }
-
-    public void updateCollaboratorById(Long id, Collaborator collaborator) {
-        if(findCollaboratorById(id) != null){
+    public void updateOneById(Long id, Collaborator collaborator) {
+        if(findOneById(id) != null){
             collaboratorRepository.updateOneById(id, collaborator.getFullName(), collaborator.getCpf());
         }
     }
 
-    public void deleteCollaboratorById(Long id) {
-        if(findCollaboratorById(id) != null) {
+    public void deleteOneById(Long id) {
+        if(findOneById(id) != null) {
             collaboratorRepository.deleteOneById(id);
         }
+    }
+
+    public void addCollaboratorItem(Long id, List<Long> items){
+        findOneById(id);
+        collaboratorItemService.registerAllItems(id, items);
+    }
+
+    public List<CollaboratorItems> findCollaboratorAndItems() {
+        List<CollaboratorItems> collaboratorItems = new ArrayList<>();
+        collaboratorRepository.findCollaboratorItems().forEach(ci -> {
+            var data = ci.split(",");
+            var items = data[2].split("\\|");
+            collaboratorItems.add(new CollaboratorItems(data[0], data[1], items));
+        });
+        return collaboratorItems;
     }
 }

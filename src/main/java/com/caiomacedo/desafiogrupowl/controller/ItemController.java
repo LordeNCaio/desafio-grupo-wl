@@ -25,25 +25,19 @@ public class ItemController {
 
     @GetMapping("/id/{id}")
     @ResponseStatus(HttpStatus.FOUND)
-    public Item findItemById(@PathVariable Long id) {
-        return itemService.findItemById(id);
-    }
-
-    @GetMapping("/all")
-    @ResponseStatus(HttpStatus.FOUND)
-    public List<Item> findAll() {
-        return itemService.findAll();
+    public Item findOneById(@PathVariable Long id) {
+        return itemService.findOneById(id);
     }
 
     @PutMapping(value = "/id/{id}", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public void updateItemById(@PathVariable Long id, @RequestBody Item item) {
+    public void updateOneById(@PathVariable Long id, @RequestBody Item item) {
         itemService.updateItemById(id, item);
     }
 
     @DeleteMapping("/id/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void removeItem(@PathVariable Long id) {
-        itemService.deleteItemById(id);
+    public void deleteOneById(@PathVariable Long id) {
+        itemService.deleteOneById(id);
     }
 }

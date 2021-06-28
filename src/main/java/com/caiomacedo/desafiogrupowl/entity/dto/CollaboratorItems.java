@@ -1,15 +1,15 @@
 package com.caiomacedo.desafiogrupowl.entity.dto;
 
-public class CollaboratorItemsDTO {
+public class CollaboratorItems {
 
     private String fullName;
     private String cpf;
-    private String name;
+    private String[] itemNames;
 
-    public CollaboratorItemsDTO(String fullName, String cpf, String name) {
+    public CollaboratorItems(String fullName, String cpf, String[] itemNames) {
         this.fullName = fullName;
         this.cpf = cpf;
-        this.name = name;
+        this.itemNames = itemNames;
     }
 
     public String getFullName() {
@@ -28,11 +28,11 @@ public class CollaboratorItemsDTO {
         this.cpf = cpf;
     }
 
-    public String getName() {
-        return name;
+    public String[] getItemNames() {
+        return itemNames;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemNames(String[] itemNames) {
+        this.itemNames = itemNames;
     }
 }

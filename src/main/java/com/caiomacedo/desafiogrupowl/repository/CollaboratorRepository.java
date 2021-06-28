@@ -16,7 +16,7 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO COLLABORATORS (FULL_NAME, CPF) VALUES (?1, ?2)", nativeQuery = true)
-    void createCollaborator(String s1, String s2);
+    void createOne(String s1, String s2);
 
     @Query(value = "SELECT * FROM COLLABORATORS", nativeQuery = true)
     List<Collaborator> findAllCollaborators();
@@ -36,4 +36,9 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
     @Transactional
     @Query(value = "DELETE FROM COLLABORATORS WHERE ID = ?", nativeQuery = true)
     void deleteOneById(Long l);
+
+    @Query(value = "SELECT c.FULL_NAME, c.CPF, GROUP_CONCAT(i.NAME SEPARATOR '|') FROM COLLABORATORS c " +
+            "INNER JOIN COLLABORATOR_ITEMS ci ON c.ID  = ci.COLLABORATOR_ID " +
+            "INNER JOIN ITEMS i ON  i.ID = ci.ITEM_ID GROUP BY c.FULL_NAME ORDER BY c.ID", nativeQuery = true)
+    List<String> findCollaboratorItems();
 }

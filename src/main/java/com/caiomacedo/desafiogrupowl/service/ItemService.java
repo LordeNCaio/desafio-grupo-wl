@@ -18,30 +18,33 @@ public class ItemService {
     }
 
     public void createItem(Item item) {
-        if(itemRepository.findOneByName(item.getName()).isPresent()){
+        if (itemRepository.findOneByName(item.getName()).isPresent()) {
             throw new ItemAlreadyExistsException();
         }
-        itemRepository.createItem(item.getName());
+        itemRepository.createOne(item.getName());
     }
 
     public List<Item> findAll() {
         return itemRepository.findAllItems();
     }
 
-    public Item findItemById(Long id) {
+    public Item findOneById(Long id) {
         return itemRepository.findOneById(id).orElseThrow(ItemNotFoundException::new);
     }
 
     public void updateItemById(Long id, Item item) {
-        if(findItemById(id) != null){
+        if (findOneById(id) != null) {
             itemRepository.updateOneById(id, item.getName());
         }
     }
 
-    public void deleteItemById(Long id) {
-        if(findItemById(id) != null) {
+    public void deleteOneById(Long id) {
+        if (findOneById(id) != null) {
             itemRepository.deleteOneById(id);
         }
     }
 
+    public List<Item> findUnusedItems() {
+        return itemRepository.findUnusedItems();
+    }
 }

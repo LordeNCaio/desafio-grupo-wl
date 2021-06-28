@@ -24,15 +24,23 @@
         <div th:class="container">
             <table th:class="table">
                 <thead th:class="table__head">
-                <tr th:class="table__row">
-                    <th th:class="table__header">Nome</th>
-                    <th th:class="table__header">CPF</th>
-                    <th th:class="table__header">Itens</th>
-                    <th th:class="table__header">Ações</th>
-                </tr>
+                    <tr th:class="table__row">
+                        <th th:class="table__header">Nome</th>
+                        <th th:class="table__header">CPF</th>
+                        <th th:class="table__header">Itens</th>
+                    </tr>
                 </thead>
                 <tbody  th:class="table__body">
-
+                    <tr th:class="table__row" th:each="participant : ${participants}">
+                        <td th:class="table__data" th:text="${participant.fullName}"></td>
+                        <td th:class="table__data" th:text="${participant.cpf}"></td>
+                        <td th:class="table__data">
+                            <span th:class="table__span" th:each="item : ${participant.itemNames}">
+                                <span th:text="${item}"></span>
+                                <span th:class="table__item-separator">, </span>
+                            </span>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

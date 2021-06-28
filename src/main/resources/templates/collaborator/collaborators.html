@@ -28,7 +28,7 @@
                     <th th:class="table__header">Id</th>
                     <th th:class="table__header">Nome</th>
                     <th th:class="table__header">CPF</th>
-                    <th th:class="table__header">Ações</th>
+                    <th th:class="table__header" colspan="3">Ações</th>
                 </tr>
                 </thead>
                 <tbody th:class="table__body">
@@ -38,6 +38,12 @@
                     <td th:class="table__data" th:text="${collaborator.cpf}"></td>
                     <td th:class="table__data">
                         <a th:class="edit-btn" th:href="@{'/collaborators/edit/id/'+${collaborator.id}}">Editar</a>
+                    </td>
+                    <td th:class="table__data">
+                        <a th:class="send-btn" th:href="@{'/collaborators/id/'+${collaborator.id}+'/add-item'}">Somar Itens</a>
+                    </td>
+                    <td th:class="table__data">
+                        <a th:class="delete-btn" th:href="@{'/collaborators/id/'+${collaborator.id}+'/remove-item'}">Tirar Itens</a>
                     </td>
                 </tr>
                 </tbody>
