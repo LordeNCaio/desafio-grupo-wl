@@ -29,7 +29,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE ITEMS i SET i.NAME = ?2 WHERE i.ID = ?1", nativeQuery = true)
+    @Query(value = "UPDATE ITEMS SET NAME = ?2 WHERE ID = ?1", nativeQuery = true)
     void updateOneById(Long id, String name);
 
     @Modifying

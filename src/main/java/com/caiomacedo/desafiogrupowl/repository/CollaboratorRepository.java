@@ -29,7 +29,7 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE COLLABORATORS c SET c.FULL_NAME = ?2, c.CPF = ?3 WHERE c.ID = ?1", nativeQuery = true)
+    @Query(value = "UPDATE COLLABORATORS SET FULL_NAME = ?2, CPF = ?3 WHERE ID = ?1", nativeQuery = true)
     void updateOneById(Long id, String fullName, String cpf);
 
     @Modifying
