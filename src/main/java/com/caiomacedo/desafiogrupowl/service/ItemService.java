@@ -42,8 +42,8 @@ public class ItemService {
 
     public void deleteOneById(Long id) {
         if (findOneById(id) != null) {
+            itemRepository.removeRelationship(id);
             itemRepository.deleteOneById(id);
-            collaboratorItemService.removeRelationship();
         }
     }
 

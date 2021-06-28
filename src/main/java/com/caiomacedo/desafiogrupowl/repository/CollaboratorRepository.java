@@ -49,17 +49,12 @@ public interface CollaboratorRepository extends JpaRepository<Collaborator, Long
 
     @Modifying
     @Transactional
-    @Query(value = "SET REFERENTIAL_INTEGRITY FALSE;" +
-            "DELETE FROM COLLABORATOR_ITEMS WHERE ID IN (SELECT ci.ID FROM COLLABORATOR_ITEMS ci " +
-            "WHERE ci.COLLABORATOR_ID  = ?1 AND ci.ITEM_ID = ?2);" +
-            "SET REFERENTIAL_INTEGRITY TRUE;", nativeQuery = true)
+    @Query(value = "DELETE FROM COLLABORATOR_ITEMS WHERE ID IN (SELECT ci.ID FROM COLLABORATOR_ITEMS ci " +
+            "WHERE ci.COLLABORATOR_ID  = ?1 AND ci.ITEM_ID = ?2);", nativeQuery = true)
     void removeCollaboratorItem(Long collaboratorId, Long itemId);
 
     @Modifying
     @Transactional
-    @Query(value = "SET REFERENTIAL_INTEGRITY FALSE;" +
-            "DELETE FROM COLLABORATOR_ITEMS WHERE COLLABORATOR_ID " +
-            "NOT IN (SELECT c.ID FROM COLLABORATORS c) OR ITEM_ID NOT IN (SELECT i.ID FROM ITEMS i);" +
-            "SET REFERENTIAL_INTEGRITY TRUE;", nativeQuery = true)
-    void removeRelationship();
+    @Query(value = "DELETE FROM COLLABORATOR_ITEMS WHERE COLLABORATOR_ID = ?", nativeQuery = true)
+    void removeRelationship(Long id);
 }

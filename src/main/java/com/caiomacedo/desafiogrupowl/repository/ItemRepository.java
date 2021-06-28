@@ -47,4 +47,9 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     @Query(value = "SELECT * FROM ITEMS i WHERE i.ID IN (SELECT ci.ITEM_ID FROM COLLABORATOR_ITEMS ci " +
             "WHERE ci.COLLABORATOR_ID = ?)", nativeQuery = true)
     List<Item> findCollaboratorItems(Long collaboratorId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM COLLABORATOR_ITEMS WHERE ITEM_ID = ?", nativeQuery = true)
+    void removeRelationship(Long id);
 }

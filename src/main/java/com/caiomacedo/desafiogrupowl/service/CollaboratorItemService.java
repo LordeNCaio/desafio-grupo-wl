@@ -51,8 +51,4 @@ public class CollaboratorItemService {
             collaboratorRepository.removeCollaboratorItem(id, itemId);
         }
     }
-
-    public void removeRelationship() {
-        collaboratorRepository.removeRelationship();
-    }
 }

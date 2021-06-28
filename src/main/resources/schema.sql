@@ -16,6 +16,6 @@ create table if not exists collaborator_items (
     collaborator_id int not null,
     item_id int not null,
     primary key(id),
-    foreign key (collaborator_id) references (collaborator_id),
-    foreign key (item_id) references (item_id)
+    foreign key (collaborator_id) references collaborators(id),
+    foreign key (item_id) references items(id)
 );
