@@ -3,7 +3,7 @@ package com.caiomacedo.desafiogrupowl.entity;
 import javax.persistence.Entity;
 
 @Entity
-public class Item extends BaseEntity{
+public class Item extends BaseEntity {
 
     private String name;
 

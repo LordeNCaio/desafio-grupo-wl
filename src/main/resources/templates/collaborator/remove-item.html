@@ -2,7 +2,7 @@
 <html lang="br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Somar Itens ao Colaborador</title>
+    <title>Tirar Itens ao Colaborador</title>
     <link th:rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body th:object="${collaborator}">
@@ -56,10 +56,10 @@
                         <label hidden>
                             <input th:id="${item.id}" name="checkbox" type="checkbox" th:value="${item.id}">
                         </label>
-                        <button th:class="check-btn" th:style="'background: #5ec71e'"
+                        <button th:class="check-btn" th:style="'background: #e01f1f'"
                                 th:with="checkbox = ${item.id}, btnId = 'btn'+${item.id}"
                                 th:id="${btnId}" th:attr="onclick=|changeButton('${btnId}', '${checkbox}')|">
-                            Adicionar
+                            Remover
                         </button>
                     </div>
                 </td>
@@ -76,8 +76,8 @@
             <tr th:class="table__row">
                 <td th:class="table__data">
                     <button id="save" th:class="send-btn + ' ' + info-table__button"
-                            th:with="url = @{'/collaborators/id/'+${collaborator.id}+'/add?items='}, redirect = @{/}"
-                            th:attr="onclick=|addItems('${url}', '${redirect}')|">
+                            th:with="url = @{'/collaborators/id/'+${collaborator.id}+'/remove?items='}, redirect = @{/}"
+                            th:attr="onclick=|removeItems('${url}', '${redirect}')|">
                         Finalizar
                     </button>
                 </td>
@@ -96,15 +96,15 @@
         box.checked = !box.checked;
 
         if (box.checked) {
+            btn.textContent = 'Reverter';
+            btn.style.backgroundColor = '#eabc15';
+        } else {
             btn.textContent = 'Remover';
             btn.style.backgroundColor = '#e01f1f';
-        } else {
-            btn.textContent = 'Adicionar';
-            btn.style.backgroundColor = '#5ec71e';
         }
     }
 
-    function addItems(url, redirect) {
+    function removeItems(url, redirect) {
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", url + getData());
         xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -134,6 +134,7 @@
                 data += items[i] + ',';
             }
         }
+
         return data;
     }
 </script>

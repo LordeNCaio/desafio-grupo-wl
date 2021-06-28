@@ -7,7 +7,7 @@ public class HandleMessage {
     private final String message;
     private final LocalDateTime timestamp;
 
-    public HandleMessage(String message){
+    public HandleMessage(String message) {
         this.message = message;
         timestamp = LocalDateTime.now();
     }

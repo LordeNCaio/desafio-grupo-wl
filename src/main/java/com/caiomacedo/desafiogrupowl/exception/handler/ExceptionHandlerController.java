@@ -15,7 +15,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(value = CollaboratorAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HandleMessage collaboratorAlreadyExistsException(){
+    public HandleMessage collaboratorAlreadyExistsException() {
         return new HandleMessage(
                 "The given collaborator already exists"
         );
@@ -23,7 +23,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(value = CollaboratorNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public HandleMessage collaboratorNotFoundException(){
+    public HandleMessage collaboratorNotFoundException() {
         return new HandleMessage(
                 "The given collaborator was not founded"
         );
@@ -31,7 +31,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(value = ItemAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HandleMessage itemAlreadyExistsException(){
+    public HandleMessage itemAlreadyExistsException() {
         return new HandleMessage(
                 "The given item already exists"
         );
@@ -39,7 +39,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(value = ItemNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public HandleMessage itemNotFoundException(){
+    public HandleMessage itemNotFoundException() {
         return new HandleMessage(
                 "The given item was not founded"
         );
@@ -47,7 +47,7 @@ public class ExceptionHandlerController {
 
     @ExceptionHandler(value = ItemAlreadyInUseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HandleMessage itemAlreadyInUseException(){
+    public HandleMessage itemAlreadyInUseException() {
         return new HandleMessage(
                 "The given item already in use by a collaborator"
         );
